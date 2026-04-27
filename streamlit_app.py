@@ -173,8 +173,8 @@ def predict_outcomes(inputs: dict) -> tuple[float, float]:
 
 def recommend_action(fully_paid_probability: float, pessimistic_return: float) -> tuple[str, str]:
     if pessimistic_return < 0.10 or fully_paid_probability < 0.60:
-        return ("Do not give the loan", "decline")
-    return ("Give the loan", "approve")
+        return ("Deny Loan", "decline")
+    return ("Offer Loan", "approve")
 
 
 def inject_theme():
@@ -409,16 +409,11 @@ def render_app():
         metric_col3.metric("Pessimistic return rate", f"{pessimistic_return:.2f}%")
 
         if recommendation_state == "decline":
-            st.error(
-                "Recommendation: do not give the loan. The expected pessimistic return "
-                "is below 0.10 or the probability of being fully paid is below 60%."
-            )
+            st.error("Recommendation: Deny Loan")
         else:
-            st.success(
-                "Recommendation: give the loan. The expected pessimistic return is at "
-                "least 0.10 and the probability of being fully paid is at least 60%."
-            )
+            st.success("Recommendation: Offer Loan")
 
 
 if get_script_run_ctx() is not None:
     render_app()
+
